@@ -51,26 +51,62 @@
     });
 </script>
 <script>
-    <?php 
-    foreach ($kondisi as $dataSuhu);
+    <?php
+    foreach ($kondisi as $data);
+    $id = $data->id;
+    $d_one = $this->db->query("SELECT * FROM `station1` WHERE id = $id")->result();
+    foreach ($d_one as $datasuhu1);
+    $suhubaru = $datasuhu1->suhu;
+    $kelembabanbaru = $datasuhu1->kelembaban;
+
+    $d_two = $this->db->query("SELECT * FROM `station1` WHERE id = $id-1")->result();
+    foreach ($d_two as $datasuhu2);
+    $suhuminsatu = $datasuhu2->suhu;
+    $kelembabandua = $datasuhu2->kelembaban;
+
+    $d_three = $this->db->query("SELECT * FROM `station1` WHERE id = $id-2")->result();
+    foreach ($d_three as $datasuhu3);
+    $suhumindua = $datasuhu3->suhu;
+    $kelembabantiga = $datasuhu3->kelembaban;
+
+    $d_four = $this->db->query("SELECT * FROM `station1` WHERE id = $id-3")->result();
+    foreach ($d_four as $datasuhu4);
+    $suhumintiga = $datasuhu4->suhu;
+    $kelembabanempat = $datasuhu4->kelembaban;
+
+    $d_five = $this->db->query("SELECT * FROM `station1` WHERE id = $id-4")->result();
+    foreach ($d_five as $datasuhu5);
+    $suhuminempat = $datasuhu5->suhu;
+    $kelembabanlima = $datasuhu5->kelembaban;
+
+    $d_six = $this->db->query("SELECT * FROM `station1` WHERE id = $id-5")->result();
+    foreach ($d_six as $datasuhu6);
+    $suhuminlima = $datasuhu6->suhu;
+    $kelembabanenam = $datasuhu6->kelembaban;
+
+    $d_seven = $this->db->query("SELECT * FROM `station1` WHERE id = $id-6")->result();
+    foreach ($d_seven as $datasuhu7);
+    $suhuminenam = $datasuhu7->suhu;
+    $kelembabantujuh = $datasuhu7->kelembaban;
+
     ?>
+
     $(function() {
+        console.log(<?= $suhubaru ?>);
         // Curah Hujan 
         var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
-
-        console.log('<?= $dataSuhu->created_at?>');
         var areaChartData = {
-            labels: ['Senin', '<?= $dataSuhu->created_at?>'],
+            labels: ['7', '6', '5', '4', '3', '2', '1'],
             datasets: [{
-                label: 'Digital Goods',
-                backgroundColor: 'rgba(60,141,188,0.9)',
-                borderColor: 'rgba(60,141,188,0.8)',
+                label: 'Curah Hujan',
+                backgroundColor: '#8EA7E9',
+                borderColor: '#E5E0FF',
                 pointRadius: false,
                 pointColor: '#3b8bba',
                 pointStrokeColor: 'rgba(60,141,188,1)',
                 pointHighlightFill: '#fff',
                 pointHighlightStroke: 'rgba(60,141,188,1)',
-                data: [<?= $dataSuhu->suhu?>-5, <?= $dataSuhu->suhu?>]
+                data: [<?= $suhuminenam ?>, <?= $suhuminlima ?>, <?= $suhuminempat ?>, <?= $suhumintiga ?>, <?= $suhumindua ?>, <?= $suhuminsatu ?>, <?= $suhubaru ?>]
             }]
         }
 
@@ -101,12 +137,69 @@
             options: areaChartOptions
         })
 
+        var areaChartCanvasdua = $('#areaChartdua').get(0).getContext('2d')
+        var areaChartDatadua = {
+            labels: ['7', '6', '5', '4', '3', '2', '1'],
+            datasets: [{
+                label: 'Aliran Air',
+                backgroundColor: '#A4BC92',
+                borderColor: '#DDFFBB',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [<?= $kelembabantujuh ?>, <?= $kelembabanenam ?>, <?= $kelembabanlima ?>, <?= $kelembabanempat ?>, <?= $kelembabantiga ?>, <?= $kelembabandua ?>, <?= $kelembabanbaru ?>]
+            }]
+        }
+
+        var areaChartOptionsdua = {
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }]
+            }
+        }
+
+        // This will get the first returned node in the jQuery collection.
+        var areaChartdua = new Chart(areaChartCanvasdua, {
+            type: 'line',
+            data: areaChartDatadua,
+            options: areaChartOptionsdua
+        })
+
         //-------------
         //- LINE CHART -
         //--------------
         var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+        var lineChartDataa = {
+            labels: ['7', '6', '5', '4', '3', '2', '1'],
+            datasets: [{
+                label: 'Curah Hujan',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [<?= $kelembabantujuh ?>, <?= $kelembabanenam ?>, <?= $kelembabanlima ?>, <?= $kelembabanempat ?>, <?= $kelembabantiga ?>, <?= $kelembabandua ?>, <?= $kelembabanbaru ?>]
+            }]
+        }
         var lineChartOptions = jQuery.extend(true, {}, areaChartOptions)
-        var lineChartData = jQuery.extend(true, {}, areaChartData)
+        var lineChartData = jQuery.extend(true, {}, lineChartDataa)
         lineChartData.datasets[0].fill = false;
         lineChartData.datasets[1].fill = false;
         lineChartOptions.datasetFill = false
@@ -115,102 +208,6 @@
             type: 'line',
             data: lineChartData,
             options: lineChartOptions
-        })
-
-        //-------------
-        //- DONUT CHART -
-        //-------------
-        // Get context with jQuery - using jQuery's .get() method.
-        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                'Chrome',
-                'IE',
-                'FireFox',
-                'Safari',
-                'Opera',
-                'Navigator',
-            ],
-            datasets: [{
-                data: [700, 500, 400, 600, 300, 100],
-                backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#d2d6de'],
-            }]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        var donutChart = new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
-
-        //-------------
-        //- PIE CHART -
-        //-------------
-        // Get context with jQuery - using jQuery's .get() method.
-        var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-        var pieData = donutData;
-        var pieOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        var pieChart = new Chart(pieChartCanvas, {
-            type: 'pie',
-            data: pieData,
-            options: pieOptions
-        })
-
-        //-------------
-        //- BAR CHART -
-        //-------------
-        var barChartCanvas = $('#barChart').get(0).getContext('2d')
-        var barChartData = jQuery.extend(true, {}, areaChartData)
-        var temp0 = areaChartData.datasets[0]
-        var temp1 = areaChartData.datasets[1]
-        barChartData.datasets[0] = temp1
-        barChartData.datasets[1] = temp0
-
-        var barChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            datasetFill: false
-        }
-
-        var barChart = new Chart(barChartCanvas, {
-            type: 'bar',
-            data: barChartData,
-            options: barChartOptions
-        })
-
-        //---------------------
-        //- STACKED BAR CHART -
-        //---------------------
-        var stackedBarChartCanvas = $('#stackedBarChart').get(0).getContext('2d')
-        var stackedBarChartData = jQuery.extend(true, {}, barChartData)
-
-        var stackedBarChartOptions = {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                xAxes: [{
-                    stacked: true,
-                }],
-                yAxes: [{
-                    stacked: true
-                }]
-            }
-        }
-
-        var stackedBarChart = new Chart(stackedBarChartCanvas, {
-            type: 'bar',
-            data: stackedBarChartData,
-            options: stackedBarChartOptions
         })
     })
 </script>

@@ -9,7 +9,10 @@ class M_App extends CI_Model
         // Mendapatkan nilai dari hasil pemeriksaan 
         return $this->db->get_where($nm_tabel, $kondisi);
     }
-
+    public function tampil_where($nm_tabel, $id)
+    {
+        return $this->db->get_where($nm_tabel, $id);
+    }
     // Create ========================================================================================
     function save($datasensor)
     {
